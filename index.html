@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Note App</title>
+</head>
+
+<body>
+    <div class="header">
+        <div class="colorTask">
+            <p class="textTask">Color de la Nota</p>
+            <div class="colors" id="colors">
+                <!--<span class="dot"></span>-->
+            </div>
+        </div>
+        <div class="actionTask">
+            <div class="actions">
+                <button id="button" class="open-modal" data-open="modal1">Añadir Nota</button>
+            </div>
+        </div>
+    </div>
+    <!--<div class="card" id="card">
+        <p>&times</p>
+        <div class="contentMarkDown" id="contentMarkDown">
+
+        </div>
+        <p>fecha</p>
+    </div>-->
+    <div class="listCard" id="listCard">
+
+    </div>
+    <div class="footer">
+
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal" id="modal1" data-animation="slideInOutLeft">
+        <div class="modal-dialog">
+            <header class="modal-header">
+                <p id="date"></p>
+                <button class="close-modal" aria-label="close modal" data-close>
+                    ✕
+                </button>
+            </header>
+            <section class="modal-content">
+                <form action="#">
+                    <!--<label>Descripcion</label>-->
+                    <textarea id="markup" cols="60" rows="20"> </textarea>
+                    <div id="content" class="html">
+                    </div>
+                    <!--<div id="content">Hola</div>-->
+                </form>
+            </section>
+            <footer class="modal-footer">
+                <button class="open-modal" id="addNote">Aceptar</button>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.js"></script>
+    <script type="text/javascript" src="/js/purify.min.js"></script>
+    <script src="/js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,360 @@
+:root {
+    --lightgray: #b6b3b3;
+    --blue: steelblue;
+    --white: #fff;
+    --black: rgba(0, 0, 0, 0.8);
+    --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
+  }
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: "NoyhRRegular";
+    src: url("/font/NoyhR-Regular.ttf");
+}
+
+html {
+    font-family: "NoyhRRegular";
+}
+
+body {
+    background-color: #1F1D2B;
+}
+
+.header {
+    border-radius: 3px;  
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.textTask {
+    top: 50%;
+    color: #fff;
+    font-size: 18px;    
+}
+
+.colors {
+    border-radius: 0 0 3px 3px;    
+    display: flex;    
+   
+}
+
+.colorTask{
+    background-color: #3A3651;
+    flex: 1;
+    margin: 5px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.actionTask{
+    background-color: #3A3651;
+    flex: 1;
+    margin: 5px;
+    border-radius: 3px;
+    flex-direction: column;
+    text-align: center;
+    line-height: 50px;
+}
+
+.dot {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 4px;
+    /*border-color: 3px solid gold;*/
+}
+
+.dot-border{
+    border-color: 3px solid gold;
+}
+
+.dot:hover {
+    cursor: pointer;
+}
+
+.listCard{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.card {
+    background-color: #3A3651;
+    width: 300px;
+    height: 250px;
+    border-radius: 3px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.card_actions{
+    display: flex;
+    justify-content: space-between;
+}
+
+.contentMarkDown{
+    margin: 10px;
+    overflow-y: scroll;
+    border: 1px solid black;
+    border-radius: 2px;
+    padding: 5px;
+}
+
+.pFotter{
+    display: flex;
+    justify-content: center;
+}
+
+.edit{
+    width: 30px;
+    height: 30px;
+}
+
+.delete{
+    width: 30px;
+    height: 30px;
+}
+
+/*Button*/
+.open-modal {
+    outline: none;
+    height: 40px;
+    text-align: center;
+    width: 130px;
+    border-radius: 40px;
+    background: #fff;
+    border: 2px solid #1ECD97;
+    color: #1ECD97;
+    letter-spacing: 1px;
+    text-shadow: 0;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .open-modal:hover {
+    color: white;
+    background: #1ECD97;
+  }
+  .open-modal:active {
+    letter-spacing: 2px;
+  }
+  
+  .onclic {
+    width: 40px;
+    border-color: #bbbbbb;
+    border-width: 3px;
+    font-size: 0;
+    border-left-color: #1ECD97;
+    -webkit-animation: rotating 2s 0.25s linear infinite;
+            animation: rotating 2s 0.25s linear infinite;
+  }
+  .onclic:after {
+    content: "";
+  }
+  .onclic:hover {
+    color: #1ECD97;
+    background: white;
+  }
+  
+  .validate {
+    font-size: 13px;
+    color: white;
+    background: #1ECD97;
+  }
+  .validate:after {
+    font-family: "FontAwesome";
+    content: "";
+  }
+  
+  @-webkit-keyframes rotating {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes rotating {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* MODAL
+  –––––––––––––––––––––––––––––––––––––––––––––––––– */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: var(--black);
+    cursor: pointer;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.35s ease-in;
+    
+  }
+  
+  .modal.is-visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .modal-dialog {
+    position: relative;
+    max-width: 900px;
+    max-height: 80vh;
+    border-radius: 5px;
+    background: var(--white);
+    overflow: auto;
+    cursor: default;
+  }
+  
+  .modal-dialog > * {
+    padding: 1rem;
+  }
+  
+  .modal-header,
+  .modal-footer {
+    background: var(--lightgray);
+  }
+  
+  .modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .modal-header .close-modal {
+    font-size: 1.5rem;
+  }
+
+  .close-modal:hover{
+      cursor: pointer;
+  }
+  
+  .modal p + p {
+    margin-top: 1rem;
+  }
+  
+  
+  /* ANIMATIONS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– */
+  [data-animation] .modal-dialog {
+    opacity: 0;
+    transition: all 0.5s var(--bounceEasing);
+  }
+  
+  [data-animation].is-visible .modal-dialog {
+    opacity: 1;
+    transition-delay: 0.2s;
+  }
+  
+  [data-animation="slideInOutDown"] .modal-dialog {
+    transform: translateY(100%);
+  }
+  
+  [data-animation="slideInOutTop"] .modal-dialog {
+    transform: translateY(-100%);
+  }
+  
+  [data-animation="slideInOutLeft"] .modal-dialog {
+    transform: translateX(-100%);
+  }
+  
+  [data-animation="slideInOutRight"] .modal-dialog {
+    transform: translateX(100%);
+  }
+  
+  [data-animation="zoomInOut"] .modal-dialog {
+    transform: scale(0.2);
+  }
+  
+  [data-animation="rotateInOutDown"] .modal-dialog {
+    transform-origin: top left;
+    transform: rotate(-1turn);
+  }
+  
+  [data-animation="mixInAnimations"].is-visible .modal-dialog {
+    animation: mixInAnimations 2s 0.2s linear forwards;
+  }
+  
+  [data-animation="slideInOutDown"].is-visible .modal-dialog,
+  [data-animation="slideInOutTop"].is-visible .modal-dialog,
+  [data-animation="slideInOutLeft"].is-visible .modal-dialog,
+  [data-animation="slideInOutRight"].is-visible .modal-dialog,
+  [data-animation="zoomInOut"].is-visible .modal-dialog,
+  [data-animation="rotateInOutDown"].is-visible .modal-dialog {
+    transform: none;
+  }
+  
+  @keyframes mixInAnimations {
+    0% {
+      transform: translateX(-100%);
+    }
+  
+    10% {
+      transform: translateX(0);
+    }
+  
+    20% {
+      transform: rotate(20deg);
+    }
+  
+    30% {
+      transform: rotate(-20deg);
+    }
+  
+    40% {
+      transform: rotate(15deg);
+    }
+  
+    50% {
+      transform: rotate(-15deg);
+    }
+  
+    60% {
+      transform: rotate(10deg);
+    }
+  
+    70% {
+      transform: rotate(-10deg);
+    }
+  
+    80% {
+      transform: rotate(5deg);
+    }
+  
+    90% {
+      transform: rotate(-5deg);
+    }
+  
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  /*card*/
+
