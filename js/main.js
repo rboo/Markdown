@@ -2,6 +2,9 @@
 
 let currentColor = null;
 let currentDate;
+let operation = "N";
+let elementMarkdown;
+let idElement = null;
 
 (function () {
     loadColor()
@@ -12,7 +15,6 @@ let currentDate;
 function loadColor() {
     const divColors = document.getElementById('colors');
     let fragment = document.createDocumentFragment();
-    //Render
     let colors = generateColor(10)
     colors.forEach(element => {
         var div = document.createElement("span");
@@ -30,7 +32,6 @@ function loadColor() {
             currentColor = elmentsColors[index].getAttribute('color');
             elmentsColors[index].setAttribute('style', 'border: 3px solid gold; background-color: ' + currentColor);
             elmentsColors[index].setAttribute("border", true);
-            console.log(currentColor)
         });
     }
 }
@@ -113,16 +114,7 @@ function showDate() {
 }
 
 function loadMarkDownInput(markdownData) {
-    // Provide variables for the main interface
-    const contentHere = document.getElementById('contentMarkDown');
-    console.log(markdownData)
-    //let clean = DOMPurify.sanitize(markdownData);
-    const newText = marked.parse(markdownData);
-    console.log(newText)
-    return newText
-
-    //const newText = marked(markdownData);
-    //contentHere.innerHTML = newText;
+    return marked.parse(markdownData);  
 }
 
 function converterToMarkDown() {
@@ -132,80 +124,69 @@ function converterToMarkDown() {
         if (e.target !== document.querySelector(".modal.is-visible")) {
             let markupArea = document.getElementById('markup');
             let data = markupArea.value
-            /*var converter = marked(data)
-            markupArea.innerHTML = converter*/
             document.querySelector(".modal").classList.remove(isVisible);
-            addCard(data)
-
+            if(operation === 'N'){
+                addCard(data)
+            }else{
+                /*tomar el valor actualizado y convertirlo a markdown*/
+                console.log("editar",loadMarkDownInput(markupArea.value.trim()))
+                document.getElementById(idElement).innerHTML = loadMarkDownInput(markupArea.value.trim().replace(/['"]+/g, ''))
+                operation = 'N'
+            }           
         }
     })
 }
 
 function addCard(obj) {
-    const divColors = document.getElementById('listCard').innerHTML +=
+    let id = new Date().getTime()
+    document.getElementById('listCard').innerHTML +=
         `
     <div class="card" id='card' style="background-color: ${currentColor} ">
         <span class="card_actions">
-            <a href="#" id="edit" class="btnEdit"><img class="edit" src="./img/edit.svg"></img></a>
+            <a href="#" id="edit" class="btnEdit"><img class="edit" data-action="E" src="./img/edit.svg"></img></a>
             <a href="#" id="delete" class="btnDelete"><img class="delete" src="./img/delete.svg"></img></a>
         </span>
-        <div class="contentMarkDown" id="contentMarkDown">
+        <div class="contentMarkDown" id="${id}" data-id="${id}">
         ${loadMarkDownInput(obj)}
         </div>
         <p class="pFotter">${currentDate}</p>
     </div>
     `
-    //loadMarkDownInput(obj)
-    //deleteNote()
 }
 
-/* queda pendiente indicar en que momento se llamara a la funcion ya que el evento de click para el delete solo funciona para el primero*/
+/* convertir html to markdown */
+function showDown(id){
+    const turndownService = new TurndownService()
+    const markdown = turndownService.turndown(document.getElementById(id))
+    return markdown
+}
+
+//verificar en el momento que se desea editar el id del content para poder pasar la info correcta
 function action(e) {
-    //var btnDelete = document.getElementsByClassName("btnDelete");
-    let btnDelete = document.getElementById("delete");
-    
+    const isVisible = "is-visible";
 
-    /*var cards = [];
-    console.info(btnDelete)
-    for (var i = 0; i < btnDelete.length; i++) {
-        btnDelete.addEventListener("click", e => {
-            if (confirm('Esta seguro de eliminar la nota?')) {
-                btnDelete.parentNode.parentNode.parentNode.removeChild(btnDelete.parentNode.parentNode)
-            } else {
-                return
-            }
-        })
-    }*/
-
-    if (e.target.classList.contains('edit')) {
-        console.log("btnEdit")
+    if (e.target.classList.contains('edit')) { 
+        //console.log("parentElement",e.target.parentElement.parentElement.parentElement) 
+        //console.log("querySelector",document.getElementById('card').querySelectorAll('[id^="contentMarkDown"]'))
+        operation = e.target.dataset.action
+        document.getElementById("modal1").classList.add(isVisible);
+        idElement = dataId(e)
+        document.getElementById("markup").value = showDown(idElement)
+        document.getElementById(idElement).innerText = ""
     }
 
     if (e.target.classList.contains('delete')) {
-        console.log("btnDelete")
-        btnDelete.parentNode.parentNode.parentNode.removeChild(btnDelete.parentNode.parentNode)
-        //e.parentNode.parentNode.parentNode.removeChild(e.parentNode.parentNode)
-        //e.removeChild('div')
+        e.target.parentNode.parentNode.parentNode.parentNode.removeChild(e.target.parentNode.parentNode.parentNode)
     }
-
 }
 
-var remove = function () {
-    this.parentNode.remove();
-};
-
-/*
-var lis = document.querySelectorAll('span');
-var button = document.querySelectorAll('a');
-
-for (var i = 0, len = lis.length; i < len; i++) {
-    button[i].addEventListener('click', remove, false);
-}*/
-
+function dataId(e){
+    var l = e.target.parentElement.parentElement.parentElement.querySelectorAll(".contentMarkDown")
+    return l[0].dataset.id
+}
 
 var listado = document.getElementById("listCard");
 
-//selecciono todas las tareas y realizamos algo de acuerdo al icono que hacemos click
 listado.addEventListener('click', e => {
     action(e);
 });

@@ -258,6 +258,10 @@ body {
   .modal p + p {
     margin-top: 1rem;
   }
+
+  #markup{
+    padding: 5px;
+  }
   
   
   /* ANIMATIONS
